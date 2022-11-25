@@ -5,8 +5,8 @@
   "keywords": [
     "coin selection"
   ],
-  "license": "Apache-2.0",
-  "author": "fivebinaries.com",
+  "license": "MIT",
+  "author": "lixiao.dev@gmail.com",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "files": [
