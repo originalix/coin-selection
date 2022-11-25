@@ -2067,6 +2067,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bignumber.js@npm:^9.0.1":
+  version: 9.1.0
+  resolution: "bignumber.js@npm:9.1.0"
+  checksum: 52ec2bb5a3874d7dc1a1018f28f8f7aff4683515ffd09d6c2d93191343c76567ae0ee32cc45149d53afb2b904bc62ed471a307b35764beea7e9db78e56bef6c6
+  languageName: node
+  linkType: hard
+
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -2212,6 +2219,7 @@ __metadata:
     "@types/node": ^16.3.2
     "@typescript-eslint/eslint-plugin": ^5.32.0
     "@typescript-eslint/parser": 5.32.0
+    bignumber.js: ^9.0.1
     eslint: 8.21.0
     eslint-config-prettier: 8.5.0
     eslint-plugin-import: 2.26.0

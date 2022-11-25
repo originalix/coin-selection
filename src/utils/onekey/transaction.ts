@@ -1,4 +1,7 @@
 import BigNumber from 'bignumber.js';
+import { coinSelection } from '../../index';
+import { PrecomposedTransaction, UserOutput, Utxo } from '../../types/types';
+import { getLogger } from '../logger';
 
 type ITransferInfo = {
   from: string;
@@ -23,19 +26,21 @@ type IAdaUTXO = {
 };
 
 type IOutput = {
-	address: string;
-	amount: string;
-	assets: [] 
-}
+  address: string;
+  amount: string;
+  assets: [];
+};
 
 export const composeTxPlan = (
-	transferInfo: ITransferInfo,
+  transferInfo: ITransferInfo,
   accountXpub: string,
   utxos: IAdaUTXO[],
   changeAddress: string,
   outputs: IOutput[],
-) => {
-  const transformUtxos = utxos.map((utxo) => ({
+  options?: { debug: boolean },
+): PrecomposedTransaction => {
+  const logger = getLogger(!!options?.debug);
+  const transformUtxos = utxos.map(utxo => ({
     address: transferInfo.from,
     txHash: utxo.tx_hash,
     outputIndex: utxo.output_index,
@@ -44,21 +49,21 @@ export const composeTxPlan = (
   try {
     const txPlan = coinSelection(
       {
-        utxos: transformUtxos as any,
-        outputs: outputs as any,
+        utxos: transformUtxos as unknown as Utxo[],
+        outputs: outputs as UserOutput[],
         changeAddress,
         certificates: [],
         withdrawals: [],
         accountPubKey: accountXpub,
       },
       {
-        debug: true,
+        debug: options?.debug ?? false,
       },
     );
     return txPlan;
   } catch (err: unknown) {
     if ((err as { code: string })?.code === 'UTXO_BALANCE_INSUFFICIENT') {
-      console.log('UTxO balance insufficient');
+      logger.debug('UTxO balance insufficient');
       if (outputs.length === 1) {
         const fixedOutput = [...outputs];
         const amountBN = new BigNumber(outputs[0].amount);
@@ -79,4 +84,4 @@ export const composeTxPlan = (
       throw err;
     }
   }
-}
+};
