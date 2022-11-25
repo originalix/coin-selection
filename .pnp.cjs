@@ -33,7 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
-            ["@emurgo/cardano-serialization-lib-asmjs", "npm:11.1.1"],\
+            ["@emurgo/cardano-serialization-lib-asmjs", "npm:11.1.0"],\
             ["@emurgo/cardano-serialization-lib-nodejs", "npm:11.0.0"],\
             ["@swc-node/jest", "npm:1.5.2"],\
             ["@types/jest", "npm:28.1.6"],\
@@ -1149,10 +1149,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@emurgo/cardano-serialization-lib-asmjs", [\
-        ["npm:11.1.1", {\
-          "packageLocation": "./.yarn/cache/@emurgo-cardano-serialization-lib-asmjs-npm-11.1.1-fe19f86563-2c74a2b2dd.zip/node_modules/@emurgo/cardano-serialization-lib-asmjs/",\
+        ["npm:11.1.0", {\
+          "packageLocation": "./.yarn/cache/@emurgo-cardano-serialization-lib-asmjs-npm-11.1.0-5ba54bc624-17f1646b3d.zip/node_modules/@emurgo/cardano-serialization-lib-asmjs/",\
           "packageDependencies": [\
-            ["@emurgo/cardano-serialization-lib-asmjs", "npm:11.1.1"]\
+            ["@emurgo/cardano-serialization-lib-asmjs", "npm:11.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2890,7 +2890,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["cardano-coin-selection", "workspace:."],\
-            ["@emurgo/cardano-serialization-lib-asmjs", "npm:11.1.1"],\
+            ["@emurgo/cardano-serialization-lib-asmjs", "npm:11.1.0"],\
             ["@emurgo/cardano-serialization-lib-nodejs", "npm:11.0.0"],\
             ["@swc-node/jest", "npm:1.5.2"],\
             ["@types/jest", "npm:28.1.6"],\
