@@ -1,4 +1,4 @@
-import CardanoWasm from '@emurgo/cardano-serialization-lib-asmjs';
+import * as CardanoWasm from '@emurgo/cardano-serialization-lib-asmjs';
 import { TxSignError } from './error';
 import { IAdaUTXO, IAdaAmount } from './types';
 
@@ -9,7 +9,7 @@ type SignKeys = {
 };
 
 export const signTransaction = async (
-  tx: string,
+  txBodyHex: string,
   address: string,
   accountIndex: number,
   utxos: IAdaUTXO[],
@@ -20,11 +20,17 @@ export const signTransaction = async (
     xprv,
     accountIndex,
   );
-  const serializedUtxos = getUtxos(address, utxos);
+  const serializedUtxos = await getUtxos(address, utxos);
   if (!serializedUtxos || serializedUtxos === null) {
     throw new Error('no utxos');
   }
-  const rawTx = CardanoWasm.Transaction.from_bytes(Buffer.from(tx, 'hex'));
+  const transactionWitnessSet = CardanoWasm.TransactionWitnessSet.new();
+  const rawTx = CardanoWasm.Transaction.new(
+    CardanoWasm.TransactionBody.from_hex(txBodyHex),
+    CardanoWasm.TransactionWitnessSet.from_bytes(
+      transactionWitnessSet.to_bytes(),
+    ),
+  );
   const keyHashes = await getKeyHashes(
     rawTx,
     serializedUtxos as unknown as CardanoWasm.TransactionUnspentOutput[],
@@ -32,7 +38,7 @@ export const signTransaction = async (
   );
   const witnessSet = await signTx(
     { paymentKey, stakeKey, accountKey },
-    tx,
+    Buffer.from(rawTx.to_bytes() as any, 'utf8').toString('hex'),
     keyHashes.key,
     partialSign,
   );
@@ -42,13 +48,14 @@ export const signTransaction = async (
     rawTx.auxiliary_data(),
   );
 
-  // const txHash = await submitTx(
-  //   Buffer.from(transaction.to_bytes(), 'hex').toString('hex'),
-  // );
   const signedTx = Buffer.from(transaction.to_bytes() as any, 'hex').toString(
     'hex',
   );
-  return signedTx;
+  const hash = CardanoWasm.hash_transaction(transaction.body()).to_hex();
+  return {
+    signedTx,
+    txid: hash,
+  };
 };
 
 /**
@@ -125,15 +132,13 @@ const getKeyHashes = async (
     const txHash = Buffer.from(input.transaction_id().to_bytes()).toString(
       'hex',
     );
-    // @ts-expect-error
-    const index = parseInt(input.index().to_str());
+    const index = input.index();
     if (
       utxos.some(
         utxo =>
           Buffer.from(utxo.input().transaction_id().to_bytes()).toString(
             'hex',
-            // @ts-expect-error
-          ) === txHash && parseInt(utxo.input().index().to_str()) === index,
+          ) === txHash && utxo.input().index() === index,
       )
     ) {
       requiredKeyHashes.push(paymentKeyHash);
