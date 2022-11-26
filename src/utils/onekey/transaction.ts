@@ -2,34 +2,7 @@ import BigNumber from 'bignumber.js';
 import { coinSelection } from '../../index';
 import { PrecomposedTransaction, UserOutput, Utxo } from '../../types/types';
 import { getLogger } from '../logger';
-
-type ITransferInfo = {
-  from: string;
-  to: string;
-  amount: string;
-  token?: string; // tokenIdOnNetwork
-  isNFT?: boolean;
-  tokenId?: string; // NFT token id
-  type?: string; // NFT standard: erc721/erc1155
-};
-
-type IAdaAmount = {
-  unit: string;
-  quantity: string;
-};
-
-type IAdaUTXO = {
-  tx_hash: string;
-  tx_index: number;
-  output_index: string;
-  amount: IAdaAmount[];
-};
-
-type IOutput = {
-  address: string;
-  amount: string;
-  assets: [];
-};
+import { ITransferInfo, IAdaUTXO, IOutput } from './types';
 
 export const composeTxPlan = (
   transferInfo: ITransferInfo,
