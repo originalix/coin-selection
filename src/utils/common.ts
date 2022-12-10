@@ -1,4 +1,4 @@
-import * as CardanoWasm from '@emurgo/cardano-serialization-lib-asmjs';
+import * as CardanoWasm from '@emurgo/cardano-serialization-lib-browser';
 import {
   CARDANO_PARAMS,
   CertificateType,
