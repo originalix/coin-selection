@@ -3,7 +3,7 @@ jest.setTimeout(30000);
 import {
   BigNum,
   TransactionBody,
-} from '@emurgo/cardano-serialization-lib-asmjs';
+} from '@emurgo/cardano-serialization-lib-browser';
 import { CoinSelectionResult } from '../src/types/types';
 import { multiAssetToArray } from '../src/utils/common';
 

@@ -1,6 +1,6 @@
 {
   "name": "cardano-coin-selection",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "keywords": [
     "coin selection"
@@ -43,8 +43,8 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@emurgo/cardano-message-signing-asmjs": "^1.0.1",
-    "@emurgo/cardano-serialization-lib-asmjs": "11.1.0"
+    "@emurgo/cardano-message-signing-browser": "^1.0.1",
+    "@emurgo/cardano-serialization-lib-browser": "11.1.0"
   },
   "peerDependencies": {
     "bignumber.js": "^9.0.1"
