@@ -1,4 +1,4 @@
-import * as CardanoWasm from '@emurgo/cardano-serialization-lib-browser';
+import * as CardanoWasm from '@emurgo/cardano-serialization-lib-asmjs';
 import { TxSignError } from './error';
 import { IAdaUTXO, IAdaAmount } from './types';
 

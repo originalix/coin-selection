@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import * as CardanoWasm from '@emurgo/cardano-serialization-lib-browser';
-import * as CardanoMessage from '@emurgo/cardano-message-signing-browser/cardano_message_signing';
+import * as CardanoWasm from '@emurgo/cardano-serialization-lib-asmjs';
+import * as CardanoMessage from '@emurgo/cardano-message-signing-asmjs/cardano_message_signing';
 import BigNumber from 'bignumber.js';
 import { getUtxos as getRawUtxos, requestAccountKey } from './signTx';
 import { DataSignError } from './error';
