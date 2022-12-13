@@ -2215,9 +2215,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cardano-coin-selection@workspace:.":
+"cardano-coin-selection-asmjs@workspace:.":
   version: 0.0.0-use.local
-  resolution: "cardano-coin-selection@workspace:."
+  resolution: "cardano-coin-selection-asmjs@workspace:."
   dependencies:
     "@emurgo/cardano-message-signing-asmjs": ^1.0.1
     "@emurgo/cardano-serialization-lib-asmjs": 11.1.0
