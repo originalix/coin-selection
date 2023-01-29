@@ -7,6 +7,7 @@ import { DataSignError } from './error';
 import {
   IAdaAmount,
   IAdaUTXO,
+  IChangeAddress,
   IEncodedTxADA,
   IEncodeInput,
   IEncodeOutput,
@@ -67,6 +68,7 @@ const convertCborTxToEncodeTx = async (
   txHex: string,
   utxos: IAdaUTXO[],
   addresses: string[],
+  changeAddress: IChangeAddress,
 ): Promise<IEncodedTxADA> => {
   const tx = CardanoWasm.Transaction.from_bytes(Buffer.from(txHex, 'hex'));
   const body = tx.body();
@@ -135,7 +137,14 @@ const convertCborTxToEncodeTx = async (
         }
       }
     }
-    outputs.push({ amount: amount, address: address, assets: assetsArray });
+    // isChange: outputs length > 0 && address === changeAddress.address
+    const isChange = i > 0 && address === changeAddress.address;
+    outputs.push({
+      amount: amount,
+      address: address,
+      assets: assetsArray,
+      isChange,
+    });
   }
 
   const totalSpent = BigNumber.sum(...outputs.map(o => o.amount)).toFixed();
