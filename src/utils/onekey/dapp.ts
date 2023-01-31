@@ -13,13 +13,42 @@ import {
   IEncodeOutput,
 } from './types';
 
-const getBalance = async (balance: BigNumber) => {
+const getBalance = async (balances: IAdaAmount[]) => {
+  const value = await assetsToValue(balances);
+  return Buffer.from(value.to_bytes() as any, 'hex').toString('hex');
+};
+
+export const assetsToValue = async (assets: IAdaAmount[]) => {
+  const multiAsset = CardanoWasm.MultiAsset.new();
+  const lovelace = assets.find(asset => asset.unit === 'lovelace');
+  const policies = [
+    ...new Set(
+      assets
+        .filter(asset => asset.unit !== 'lovelace')
+        .map(asset => asset.unit.slice(0, 56)),
+    ),
+  ];
+  policies.forEach(policy => {
+    const policyAssets = assets.filter(
+      asset => asset.unit.slice(0, 56) === policy,
+    );
+    const assetsValue = CardanoWasm.Assets.new();
+    policyAssets.forEach(asset => {
+      assetsValue.insert(
+        CardanoWasm.AssetName.new(Buffer.from(asset.unit.slice(56), 'hex')),
+        CardanoWasm.BigNum.from_str(asset.quantity),
+      );
+    });
+    multiAsset.insert(
+      CardanoWasm.ScriptHash.from_bytes(Buffer.from(policy as any, 'hex')),
+      assetsValue,
+    );
+  });
   const value = CardanoWasm.Value.new(
-    CardanoWasm.BigNum.from_str(balance.toFixed() ?? '0'),
+    CardanoWasm.BigNum.from_str(lovelace ? lovelace.quantity : '0'),
   );
-  return Promise.resolve(
-    Buffer.from(value.to_bytes() as any, 'hex').toString('hex'),
-  );
+  if (assets.length > 1 || !lovelace) value.set_multiasset(multiAsset);
+  return value;
 };
 
 const getAddresses = async (addresses: string[]) => {
