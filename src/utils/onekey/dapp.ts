@@ -205,6 +205,7 @@ const convertCborTxToEncodeTx = async (
         'utf8',
       ).toString('hex'),
       size: 0,
+      rawTxHex: txHex,
     },
     signOnly: true,
   };
